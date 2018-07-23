@@ -12,7 +12,7 @@ print("\n!!!! Welcome to the UoE rPi/Python software !!!!\n")
 
 #initialize i2c ADC
 adc = Adafruit_ADS1x15.ADS1115()
-GAIN=2/3
+GAIN=2.0/3.0
 TC_SCALE=0.0001875
 TMP=[0]*3
 
@@ -39,8 +39,8 @@ while(1):
          print "No NDIR device connected... \n"
       else:
          ga_dev.compdat()
-         print 'HC:{0:.2f}, O2:{1:.2f}, CO2:{2:.2f}, CO:{3:.2f},'.format(0,
-               ga_dev.O2/100.0,ga_dev.CO2/100.2,ga_dev.CO/1000.0)
+         print 'HC:{0:.3f}, O2:{1:.3f}, CO2:{2:.3f}, CO:{3:.3f},'.format(0,
+               ga_dev.O2/100.0,ga_dev.CO2/100.0,ga_dev.CO/1000.0)
 
       for i in range(3):
          TI = adc.read_adc(i, gain=GAIN, data_rate=64)
@@ -81,8 +81,8 @@ while(1):
             ga_dev.compdat()
             dat_file.write(tcur.strftime("%d:%m:%y,%H:%M:%S,"))
             dat_file.write(str(count)+",")
-            dat_file.write('{0:.2f},{1:.2f},{2:.2f},{3:.2f},'.format(0,
-               ga_dev.O2/100.0,ga_dev.CO2/100.2,ga_dev.CO/1000.0))
+            dat_file.write('{0:.2f},{1:.4f},{2:.4f},{3:.4f},'.format(0,
+               ga_dev.O2/100.0,ga_dev.CO2/100.0,ga_dev.CO/1000.0))
             for i in range(3):
                TI = adc.read_adc(i, gain=GAIN)
                TMP[i] = 200.92*(TI*TC_SCALE)-6.2974
