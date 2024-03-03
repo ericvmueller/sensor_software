@@ -14,14 +14,12 @@ if device==1:
 	data_chunk_count=31
 	data_chunk_size=16
 	pad_bytes=12
-	TC=np.zeros([86500,1])
 	alias=["time [UTC]","time [s]","lat [deg]","lat [min]","lon [deg]","lon [min]","TC Temp [C]"]
 elif device==2:
 	prefix='DL'
 	data_chunk_count=8
 	data_chunk_size=60
 	pad_bytes=28
-	TC=np.zeros([86500,12])
 	alias=["time [UTC]","time [s]","lat [deg]","lat [min]","lon [deg]","lon [min]",
 	"TC1 Temp [C]",
 	"TC2 Temp [C]",
@@ -44,12 +42,6 @@ folder=input("---> ")
 if folder=="":
 	folder="./"
 
-time=np.zeros([86500])
-lat=np.zeros([86500])
-lon=np.zeros([86500])
-
-clock=[]
-
 # for now, assume max device number and max file index
 for i in range(150):
 	for j in range(100):
@@ -60,6 +52,14 @@ for i in range(150):
 		if fileName.is_file():
 			with open(fileName,'rb') as binFile:
 				count=0
+				time=np.zeros([86500])
+				lat=np.zeros([86500])
+				lon=np.zeros([86500])
+				if device==1:
+					TC=np.zeros([86500])
+				elif device==2:
+					TC=np.zeros([86500,12])
+				clock=[]
 				print(fileName)
 				while (binFile.read(2)):
 					binFile.read(2)
